@@ -83,10 +83,10 @@ export function belongsToRelationAcceptance(
     it('can find shipment of order with a custom foreign key name', async () => {
       const shipment = await shipmentRepo.create({
         name: 'Tuesday morning shipment',
+        shipmentId: 999,
       });
       const order = await orderRepo.create({
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        shipment_id: shipment.id,
+        shipmentInfo: shipment.shipmentId,
         description: 'Order that is shipped Tuesday morning',
       });
       const result = await orderRepo.shipment(order.id);

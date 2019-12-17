@@ -38,8 +38,8 @@ export class Order extends Entity {
   @belongsTo(() => Customer)
   customerId: MixedIdType;
 
-  @belongsTo(() => Shipment, {name: 'shipment'})
-  shipment_id: MixedIdType;
+  @belongsTo(() => Shipment, {keyTo: 'shipmentId', name: 'shipment'})
+  shipmentInfo: number;
 }
 
 export interface OrderRelations {
