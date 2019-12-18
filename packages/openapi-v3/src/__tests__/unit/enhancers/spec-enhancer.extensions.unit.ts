@@ -11,8 +11,7 @@ describe('spec-enhancer-extension-point', () => {
   let app: SpecServiceApplication;
   let specService: OASEnhancerService;
 
-  beforeEach(givenAppWithSpecComponent);
-  beforeEach(findSpecService);
+  beforeEach(givenAppWithSpecService);
 
   it('setter - can set spec', async () => {
     const EXPECTED_SPEC = {
@@ -26,7 +25,7 @@ describe('spec-enhancer-extension-point', () => {
     expect(specService.spec).to.eql(EXPECTED_SPEC);
   });
 
-  it('generateSpec - loads and create spec for ALL registered extensions', async () => {
+  it('generateSpec - loads and creates spec for ALL registered extensions', async () => {
     const EXPECTED_SPEC = {
       openapi: '3.0.0',
       // info object is updated by the info enhancer
@@ -43,7 +42,7 @@ describe('spec-enhancer-extension-point', () => {
         },
       },
     };
-    const specFromService = await specService.generateSpec();
+    const specFromService = await specService.applyAllEnhancers();
     expect(specFromService).to.eql(EXPECTED_SPEC);
   });
 
@@ -64,11 +63,8 @@ describe('spec-enhancer-extension-point', () => {
     expect(mergedSpec).to.eql(EXPECTED_SPEC);
   });
 
-  function givenAppWithSpecComponent() {
+  async function givenAppWithSpecService() {
     app = new SpecServiceApplication();
-  }
-
-  async function findSpecService() {
     specService = await app.getSpecService();
   }
 

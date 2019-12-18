@@ -87,10 +87,10 @@ export class OASEnhancerService {
   }
 
   /**
-   * Generate OpenAPI spec by apply ALL registered enhancers
+   * Generate OpenAPI spec by applying ALL registered enhancers
    * TBD: load enhancers by group names
    */
-  async generateSpec(options = {}): Promise<OpenApiSpec> {
+  async applyAllEnhancers(options = {}): Promise<OpenApiSpec> {
     const enhancers = await this.getEnhancers();
     if (_.isEmpty(enhancers)) return this._spec;
     for (const e of enhancers) {
@@ -103,7 +103,7 @@ export class OASEnhancerService {
 
 /**
  * The default merge function to patch the current OpenAPI spec.
- * It leverages module `json-merge-patch`'s merge API to merge two json object.
+ * It leverages module `json-merge-patch`'s merge API to merge two json objects.
  * It returns a new merged object without modifying the original one.
  *
  * A list of merging rules can be found in test file:
