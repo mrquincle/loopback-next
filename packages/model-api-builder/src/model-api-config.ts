@@ -10,13 +10,22 @@ import {Model} from '@loopback/repository';
  * content of `public-models/{model-name}.config.json` files.
  */
 export type ModelApiConfig = {
-  // E.g. Product (a Model class)
+  /**
+   * The model class that the repository and controller are to be built from.
+   * e.g. Product (a Model class)
+   */
   model: typeof Model & {prototype: Model};
 
-  // E.g. 'RestCrud'
+  /**
+   * Name of data-access pattern describing the API builder.
+   * e.g. 'RestCrud'
+   */
   pattern: string;
 
-  // E.g. 'db'
+  /**
+   * The dataSource the model uses under the hood.
+   * e.g. 'db'
+   */
   dataSource: string;
 
   [patternSpecificSetting: string]: unknown;

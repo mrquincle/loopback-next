@@ -25,7 +25,7 @@ export interface ModelApiBuilder {
 }
 
 /**
- * A binding template for greeter extensions
+ * A binding template for model API extensions
  */
 export const asModelApiBuilder: BindingTemplate = binding => {
   extensionFor(MODEL_API_BUILDER_PLUGINS)(binding);

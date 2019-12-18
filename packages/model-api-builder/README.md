@@ -5,9 +5,9 @@ Types and helpers for packages contributing Model API builders.
 ## Overview
 
 The `@loopback/model-api-builder` package provides a contract for extensions
-that contribute builders for repositories and controllers. Users can provide
-their model classes and the extensions provided will build their repository and
-controller based on the model.
+that contribute builders for repositories and controllers. Users provide both
+the model class and an extension. The extension is then used to build their
+repository and controller based on the model class.
 
 ## Installation
 

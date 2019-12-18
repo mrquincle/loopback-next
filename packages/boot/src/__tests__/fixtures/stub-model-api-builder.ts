@@ -29,3 +29,39 @@ class StubModelApiBuilder implements ModelApiBuilder {
 export class StubModelApiBuilderComponent implements Component {
   bindings = [createBindingFromClass(StubModelApiBuilder)];
 }
+
+export const samePatternBuildCalls: object[] = [];
+
+@bind(asModelApiBuilder)
+class SamePatternModelApiBuilder implements ModelApiBuilder {
+  readonly pattern: string = 'same';
+  async build(
+    application: BooterApp,
+    modelClass: typeof Model & {prototype: Model},
+    config: ModelApiConfig,
+  ): Promise<void> {
+    samePatternBuildCalls.push(application);
+  }
+}
+
+export class SamePatternModelApiBuilderComponent implements Component {
+  bindings = [createBindingFromClass(SamePatternModelApiBuilder)];
+}
+
+export const similarPatternBuildCalls: object[] = [];
+
+@bind(asModelApiBuilder)
+class SimilarPatternModelApiBuilder implements ModelApiBuilder {
+  readonly pattern: string = 'same';
+  async build(
+    application: BooterApp,
+    modelClass: typeof Model & {prototype: Model},
+    config: ModelApiConfig,
+  ): Promise<void> {
+    similarPatternBuildCalls.push({modelClass});
+  }
+}
+
+export class SimilarPatternModelApiBuilderComponent implements Component {
+  bindings = [createBindingFromClass(SimilarPatternModelApiBuilder)];
+}

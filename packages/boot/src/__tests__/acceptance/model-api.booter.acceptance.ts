@@ -17,6 +17,10 @@ import {BootMixin, ModelApiBooter} from '../..';
 import {Product} from '../fixtures/product.model';
 import {
   buildCalls,
+  samePatternBuildCalls,
+  SamePatternModelApiBuilderComponent,
+  similarPatternBuildCalls,
+  SimilarPatternModelApiBuilderComponent,
   StubModelApiBuilderComponent,
 } from '../fixtures/stub-model-api-builder';
 
@@ -66,6 +70,35 @@ module.exports = {
         },
       ]),
     );
+  });
+
+  it('uses the API builder registered first if there is a duplicate pattern name', async () => {
+    await sandbox.copyFile(
+      resolve(__dirname, '../fixtures/product.model.js'),
+      'models/product.model.js',
+    );
+
+    await sandbox.writeTextFile(
+      'model-endpoints/product.rest-config.js',
+      `
+const {Product} = require('../models/product.model');
+module.exports = {
+  model: Product,
+  pattern: 'same',
+  dataSource: 'db',
+  basePath: '/products',
+};
+      `,
+    );
+
+    // Boot & start the application
+    await app.boot();
+    await app.start();
+
+    // registered first
+    expect(toJSON(samePatternBuildCalls)).to.eql([toJSON(app)]);
+
+    expect(similarPatternBuildCalls).to.be.empty();
   });
 
   it('throws if there are no patterns matching', async () => {
@@ -122,6 +155,8 @@ module.exports = {
       this.projectRoot = sandbox.path;
       this.booters(ModelApiBooter);
       this.component(StubModelApiBuilderComponent);
+      this.component(SamePatternModelApiBuilderComponent);
+      this.component(SimilarPatternModelApiBuilderComponent);
     }
   }
 
